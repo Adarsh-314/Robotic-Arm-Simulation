@@ -1,0 +1,23 @@
+# ROS 2 workspace artifacts
+build/
+install/
+log/
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code settings
+.vscode/
+
+# OS artifacts
+.DS_Store
+*.swp
+
+# Local shell and editor files
+*.log
+
+# Generated build outputs
+# Note: keep source URDF/xacro files under version control

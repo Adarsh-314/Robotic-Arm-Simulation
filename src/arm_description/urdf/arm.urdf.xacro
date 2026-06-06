@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<robot name="arm_4dof"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <material name="grey">
+        <color rgba="0.5 0.5 0.5 1"/>
+    </material>
+    <material name="blue">
+        <color rgba="0.2 0.4 0.8 1"/>
+    </material>
+    <material name="orange">
+        <color rgba="0.9 0.4 0.1 1"/>
+    </material>
+    <material name="dark">
+        <color rgba="0.1 0.1 0.1 1"/>
+    </material>
+
+    <xacro:macro name="cylinder_inertia" params="m r h">
+        <inertial>
+            <mass value="${m}"/>
+            <inertia ixx="${m*(3*r*r+h*h)/12}" ixy="0" ixz="0" iyy="${m*(3*r*r+h*h)/12}" iyz="0" izz="${m*r*r/2}"/>
+        </inertial>
+    </xacro:macro>
+
+    <link name="world"/>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.08" length="0.10"/>
+            </geometry>
+            <material name="dark"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.08" length="0.10"/>
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertia m="1.0" r="0.08" h="0.10"/>
+    </link>
+
+    <joint name="joint1" type="revolute">
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <origin xyz="0 0 0.10" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="10" velocity="1.0" lower="-3.14159" upper="3.14159"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <link name="link1">
+        <visual>
+            <origin xyz="0 0 0.10" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.20"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.10" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.20"/>
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertia m="0.5" r="0.04" h="0.20"/>
+    </link>
+
+    <joint name="joint2" type="revolute">
+        <parent link="link1"/>
+        <child link="link2"/>
+        <origin xyz="0 0 0.20" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="10" velocity="1.0" lower="-1.5708" upper="1.5708"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <link name="link2">
+        <visual>
+            <origin xyz="0 0 0.12" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.035" length="0.24"/>
+            </geometry>
+            <material name="grey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.12" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.035" length="0.24"/>
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertia m="0.4" r="0.035" h="0.24"/>
+    </link>
+
+    <joint name="joint3" type="revolute">
+        <parent link="link2"/>
+        <child link="link3"/>
+        <origin xyz="0 0 0.24" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="10" velocity="1.0" lower="-1.5708" upper="1.5708"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <link name="link3">
+        <visual>
+            <origin xyz="0 0 0.10" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.03" length="0.20"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.10" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.03" length="0.20"/>
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertia m="0.3" r="0.03" h="0.20"/>
+    </link>
+
+    <joint name="joint4" type="revolute">
+        <parent link="link3"/>
+        <child link="link4"/>
+        <origin xyz="0 0 0.20" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="5" velocity="1.0" lower="-1.5708" upper="1.5708"/>
+        <dynamics damping="0.05" friction="0.05"/>
+    </joint>
+
+    <link name="link4">
+        <visual>
+            <origin xyz="0 0 0.06" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.12"/>
+            </geometry>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.06" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.12"/>
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertia m="0.2" r="0.025" h="0.12"/>
+    </link>
+
+    <joint name="ee_joint" type="fixed">
+        <parent link="link4"/>
+        <child link="ee_link"/>
+        <origin xyz="0 0 0.12" rpy="0 0 0"/>
+    </joint>
+    <link name="ee_link"/>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="link1">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="link2">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="link3">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="link4">
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+            <parameters>$(find arm_description)/config/arm_controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+    <ros2_control name="arm_hardware" type="system">
+        <hardware>
+            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+        <joint name="joint1">
+            <command_interface name="position">
+                <param name="min">-3.14159</param>
+                <param name="max">3.14159</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="joint2">
+            <command_interface name="position">
+                <param name="min">-1.5708</param>
+                <param name="max">1.5708</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="joint3">
+            <command_interface name="position">
+                <param name="min">-1.5708</param>
+                <param name="max">1.5708</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+        <joint name="joint4">
+            <command_interface name="position">
+                <param name="min">-1.5708</param>
+                <param name="max">1.5708</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+    </ros2_control>
+
+</robot>
