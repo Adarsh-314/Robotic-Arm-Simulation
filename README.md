@@ -250,28 +250,4 @@ Potential next steps:
 
 This project is configured for `Apache-2.0` as specified in `src/arm_description/package.xml`.
 
-## Notes for GitHub
 
-If you are publishing this project to GitHub, follow these steps:
-
-```bash
-git init
-git add .
-git commit -m "Add 4-DOF robotic arm simulation project"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git push -u origin main
-```
-
-If the repository already exists, clone it on another machine with:
-
-```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
-```
-
-Then create a ROS 2 workspace if needed, or use the package directly in `src/` if the repository contains `ros2_ws`.
-
-- Add this `README.md` to the root of your workspace
-- Commit the file and push it to your repository
-- If you want, add a GitHub `LICENSE` and `.gitignore` for ROS workspaces
